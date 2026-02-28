@@ -1,20 +1,71 @@
-body { margin: 0; font-family: sans-serif; display: flex; background-color: #f6f6f6; color: #202122; }
-#sidebar { width: 160px; padding: 20px; background: #f6f6f6; height: 100vh; position: sticky; top: 0; }
-.logo { font-size: 20px; font-weight: bold; margin-bottom: 20px; text-align: center; }
-.nav { list-style: none; padding: 0; }
-.nav li { margin-bottom: 10px; }
-.nav a { text-decoration: none; color: #0645ad; font-size: 14px; cursor: pointer; }
-.nav a:hover { text-decoration: underline; }
-#main { flex-grow: 1; background: #ffffff; border-left: 1px solid #a7d7f9; padding: 20px 40px; min-height: 100vh; }
-#topbar { display: flex; justify-content: flex-end; margin-bottom: 20px; }
-#searchInput { padding: 5px; width: 300px; }
-button { padding: 5px 15px; margin-left: 5px; cursor: pointer; background: #f8f9fa; border: 1px solid #a2a9b1; }
-h1 { border-bottom: 1px solid #a2a9b1; padding-bottom: 5px; font-family: 'Linux Libertine', Georgia, Times, serif; }
-#createForm { display: flex; flex-direction: column; }
-#newTitle { margin-bottom: 10px; padding: 10px; font-size: 18px; border: 1px solid #ccc; }
-#newContent { height: 300px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; font-family: monospace; }
-.infobox { float: right; width: 250px; border: 1px solid #a2a9b1; background-color: #f8f9fa; padding: 10px; margin-left: 20px; margin-bottom: 20px; font-size: 90%; }
-.infobox h3 { margin-top: 0; text-align: center; background: #eaecf0; padding: 5px; }
-.infobox img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-.infobox p { margin: 5px 0; border-bottom: 1px solid #eaecf0; padding-bottom: 3px; }
-.clear { clear: both; }
+body {
+    margin: 0;
+    font-family: sans-serif;
+    display: flex;
+    background-color: #f6f6f6;
+    color: #202122;
+}
+#sidebar {
+    width: 160px;
+    padding: 20px;
+    background: #f6f6f6;
+    height: 100vh;
+}
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.nav {
+    list-style: none;
+    padding: 0;
+}
+.nav li {
+    margin-bottom: 10px;
+}
+.nav a {
+    text-decoration: none;
+    color: #0645ad;
+    font-size: 14px;
+}
+#main {
+    flex-grow: 1;
+    background: #ffffff;
+    border-left: 1px solid #a7d7f9;
+    padding: 20px 40px;
+    min-height: 100vh;
+}
+#topbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+#searchInput {
+    padding: 5px;
+    width: 300px;
+}
+button {
+    padding: 5px 15px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+h1 {
+    border-bottom: 1px solid #a2a9b1;
+    padding-bottom: 5px;
+    font-family: 'Linux Libertine', Georgia, Times, serif;
+}
+#createForm {
+    display: flex;
+    flex-direction: column;
+}
+#newTitle {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 18px;
+}
+#newContent {
+    height: 300px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
