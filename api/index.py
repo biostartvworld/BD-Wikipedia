@@ -1,62 +1,19 @@
-import os
-import requests
 from flask import Flask, request, jsonify
-from pymongo import MongoClient
+import requests
 
 app = Flask(__name__)
-
-MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority")
-client = MongoClient(MONGO_URI)
-db = client.bd_wikipedia
-pages_collection = db.manual_pages
-
-def get_owner_data():
-    return {
-        "title": "MD. Shinha Sarder",
-        "content": """
-        <div class="infobox">
-            <h3>MD. Shinha Sarder</h3>
-            <img src="https://via.placeholder.com/250x250.png?text=MD.+Shinha+Sarder" alt="MD. Shinha Sarder">
-            <p><strong>Born:</strong> November 5, 2004</p>
-            <p><strong>Occupation:</strong> Developer, Programmer, Entrepreneur</p>
-            <p><strong>Education:</strong> Northern University of Business and Technology, Khulna</p>
-            <p><strong>Parents:</strong> MD. Lutfor Rahaman, Samima Sultana</p>
-            <p><strong>Projects:</strong> Biostar TV World</p>
-        </div>
-        <p>MD. Shinha Sarder is a CSE student, programmer, and the creator of BD Wikipedia and Biostar TV World. He is skilled in backend automation, knowledge panels management, and AI image generation.</p>
-        """,
-        "source": "BD Wikipedia Owner"
-    }
+manual_pages = {}
 
 @app.route('/api/page/<title>', methods=['GET'])
 def get_page(title):
-    if title.lower() in ["owner", "developer", "md. shinha sarder"]:
-        return jsonify(get_owner_data())
+    if title in manual_pages:
+        return jsonify({"title": title, "content": manual_pages[title], "source": "BD Wikipedia"})
     
-    manual_page = pages_collection.find_one({"title": {"$regex": f"^{title}$", "$options": "i"}})
-    if manual_page:
-        return jsonify({
-            "title": manual_page["title"],
-            "content": manual_page["content"],
-            "source": "BD Wikipedia"
-        })
-    
-    wiki_url = f"https://bn.wikipedia.org/api/rest_v1/page/summary/{title}"
+    wiki_url = f"https://bn.wikipedia.org/api/rest_v1/page/html/{title}"
     response = requests.get(wiki_url)
     
     if response.status_code == 200:
-        data = response.json()
-        img_html = f"<img src='{data['thumbnail']['source']}' width='250'>" if 'thumbnail' in data else ""
-        extract = data.get('extract_html', '')
-        
-        content = f"""
-        <div class="infobox">
-            <h3>{data.get('title', title)}</h3>
-            {img_html}
-        </div>
-        <div>{extract}</div>
-        """
-        return jsonify({"title": data.get('title', title), "content": content, "source": "Wikipedia API"})
+        return jsonify({"title": title, "content": response.text, "source": "Wikipedia"})
     else:
         return jsonify({"error": "Page not found"}), 404
 
@@ -66,11 +23,7 @@ def create_page():
     title = data.get('title')
     content = data.get('content')
     if title and content:
-        pages_collection.update_one(
-            {"title": title},
-            {"$set": {"title": title, "content": content}},
-            upsert=True
-        )
+        manual_pages[title] = content
         return jsonify({"success": True, "title": title})
     return jsonify({"error": "Invalid data"}), 400
 
